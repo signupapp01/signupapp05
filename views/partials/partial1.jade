@@ -1,0 +1,100 @@
+.row
+  .col-md-8.col-md-offset-2
+    form.form-signin(name='userForm', novalidate='')
+      h3 Please register
+      hr
+      .row
+        .col-md-12
+          p Account Details
+      .row
+        .col-md-6
+          .row
+            .col-md-12
+              .form-group(ng-class="{ 'has-error' : userForm.fullname.$invalid && !userForm.fullname.$pristine }")
+                label.sr-only(for='inputFullname') Full Name
+                input#inputFullname.form-control(name='fullname', type='text', placeholder='Full Name', required='', ng-model='user.fullname', ng-model-options="{ updateOn: 'default blur', debounce: { default: 1000, blur: 0 } }", ng-minlength='1', <='', input='')
+                p.help-block(ng-show='userForm.fullname.$invalid && !userForm.fullname.$pristine') Full name cannot be blank.
+          .row
+            .col-md-12
+              .form-group(ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }")
+                label.sr-only(for='inputEmail') Email
+                input#inputEmail.form-control(name='email', type='email', autofocus='', placeholder='Email', required='', ng-model='user.email', ng-model-options="{ updateOn: 'default blur', debounce: { default: 1000, blur: 0 } }", ng-pattern='/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/', <='', input='')
+                p.help-block(ng-show='userForm.email.$invalid && !userForm.email.$pristine') A valid email is required.
+          .row
+            .col-md-12
+              .form-group(ng-class="{'has-error' : userForm.phone.$invalid && !userForm.phone.$pristine}")
+                label.sr-only(for='inputPhone') Phone
+                input#inputPhone.form-control(
+                    name='phone',
+                    type='text',
+                    placeholder='Phone',
+                    required='',
+                    ng-pattern='reg'
+                    ng-model='user.phone',
+                    ng-model-options="{ updateOn: 'default blur', debounce: { default: 1000, blur: 0 } }",
+                    <='', input='')
+                p.help-block(ng-show='userForm.phone.$invalid && !userForm.phone.$pristine') Invalid phone number.
+
+        .col-md-6
+          .row
+            .col-md-12
+                .form-group(ng-class="{'has-error' : userForm.password.$invalid && !userForm.password.$pristine}")
+                  label.sr-only(for='inputPassword') Confirm Password
+                  input#inputPassword.form-control(
+                    name='password',
+                    type='text',
+                    placeholder='Password',
+                    required='',
+                    ng-minlength='6',
+                    ng-model='user.password',
+                    ng-model-options="{ updateOn: 'default blur', debounce: { default: 1000, blur: 0 } }")
+                  p.help-block(ng-show='!userForm.password.$pristine && userForm.$error.minlength') Password 6 character minimum.
+
+          .row
+            .col-md-12
+              .form-group(ng-class="{'has-error' : userForm.passwordConfirm.$invalid && !userForm.passwordConfirm.$pristine}")
+                label.sr-only(for='inputConfirmPassword') Confirm Password
+                input#inputConfirmPassword.form-control(name='passwordConfirm', type='text', placeholder='Retype Password', required='', ng-model='user.passwordConfirm', ng-model-options="{ updateOn: 'default blur', debounce: { default: 1000, blur: 0 } }", matchpassword='{{user.passwordConfirm}}', <='', input='')
+                p.help-block(ng-show='!userForm.passwordConfirm.$pristine && userForm.$error.matchpassword') Passwords do not match.
+
+      .row
+        .col-md-12
+          p Address Details
+      .row
+        .col-md-6
+          .row
+            .col-md-12
+              .form-group
+                label.sr-only(for='inputAddress') Address
+                input#inputAddress.form-control(name='address', type='text', required='', placeholder='Address', ng-model='user.address')
+          .row
+            .col-md-12
+              .form-group(ng-class="{'has-error' : userForm.zipcode.$invalid && !userForm.zipcode.$pristine}")
+                label.sr-only(for='inputZip') Zipcode
+                input#inputZipcode.form-control(name='zipcode', type='text', placeholder='Zipcode', required='', ng-model='user.zipcode', ng-model-options="{ updateOn: 'default blur', debounce: { default: 1000, blur: 0 } }", ng-minlength='5', ng-maxlength='5', zipcheck='{{user.zipcode}}', <='', input='')
+                p.help-block(ng-show='userForm.zipcode.$error.minlength || userForm.zipcode.$error.maxlength') Zip should have 5 digits only.
+                p.help-block(ng-show='userForm.zipcode.$error.zipcheck')
+                  | Zip should not contain
+                  | only digits.
+          .row
+            .col-md-12
+              .form-group
+                label.sr-only(for='inputCountry') Country
+                input#inputCountry.form-control(name='country', type='text', required='', placeholder='Country', ng-model='user.country')
+        .col-md-6
+          .row
+            .col-md-12
+              .form-group
+                label.sr-only(for='inputCity') City
+                input#inputCity.form-control(name='city', type='text', required='', placeholder='City', ng-model='user.city')
+          .row
+            .col-md-12
+              .form-group
+                label.sr-only(for='inputState') State
+                select#inputState.form-control(name='state', required='', ng-model='user.state')
+                  option(value='', disabled='', selected='') Select State
+                  option(ng-repeat='option in stateOptions', value='option') {{option}}
+      .row
+        .col-md-12
+          input.btn.btn-primary.pull-right.marg-left-15(type='submit', ng-disabled='userForm.$invalid', value='Submit', ng-click='submitRegisterForm()')
+          input.btn.btn-info.pull-right(type='reset', value='Reset')
